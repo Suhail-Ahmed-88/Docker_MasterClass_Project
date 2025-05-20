@@ -1,6 +1,23 @@
-# streamlit_app.py
+from flask import Flask, request
 
-import streamlit as st
+app = Flask(__name__)
 
-st.markdown("<h1>Docker_MasterClass_Project</h1>", unsafe_allow_html=True)
-st.write("A simple, hands-on project to learn and master Docker containerization from basics to advanced concepts.")
+@app.route('/', methods=['GET', 'POST'])
+def home():
+    if request.method == 'POST':
+        name = request.form['name']
+        return f'''
+            <h2>Hello, {name}! 👋</h2>
+            <a href="/">Go back</a>
+        '''
+    return '''
+        <h2>Enter your name:</h2>
+        <form method="POST">
+            <input type="text" name="name" required>
+            <button type="submit">Submit</button>
+        </form>
+    '''
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+ 
